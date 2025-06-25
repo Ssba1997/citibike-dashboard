@@ -2,5 +2,6 @@ streamlit==1.20.0
 plotly==5.13.0
 matplotlib==3.7.1
 numerize==0.12
+python-3.10.12
 pandas
 numpy
