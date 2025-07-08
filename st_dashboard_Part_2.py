@@ -43,12 +43,11 @@ page = st.sidebar.selectbox('🔎 Select a Section:',
 BASE_PATH = r"C:\Users\hp\Documents\New York's CitiBike trips in 2022"
 
 # -------------------- Load Dataset --------------------
-file_path = os.path.join(BASE_PATH, 'reduced_data_to_plot_7.csv')
-if not os.path.isfile(file_path):
-    st.error(f"⚠️ Data file not found: {file_path}")
+try:
+    df = pd.read_csv(os.path.join(BASE_PATH, 'reduced_data_to_plot_7.csv'), encoding='utf-8')
+except FileNotFoundError:
+    st.error("⚠️ Data file 'reduced_data_to_plot_7.csv' not found. Please ensure it exists in the folder.")
     st.stop()
-
-df = pd.read_csv(file_path, encoding='utf-8')
 
 # -------------------- Page 1: Introduction --------------------
 if page == "🏠 Introduction":
@@ -82,8 +81,6 @@ elif page == "📈 Bike Usage vs Weather":
 - Helps plan seasonal bike availability and marketing campaigns.
     """)
     fig_line = make_subplots(specs=[[{"secondary_y": True}]])
-
-
     fig_line.add_trace(
         go.Scatter(x=df['date'], y=df['value'], name='🚲 Bike Rides', line=dict(color='blue')),
         secondary_y=False
@@ -101,6 +98,7 @@ elif page == "📈 Bike Usage vs Weather":
     )
     st.plotly_chart(fig_line, use_container_width=True)
 
+    # Monthly summary table
     monthly_summary = df.groupby('month')[['value', 'avg_temp']].agg({'value':'sum', 'avg_temp':'mean'}).reset_index()
     monthly_summary.columns = ['Month', 'Total Rides', 'Avg Temperature (°F)']
     st.subheader("📅 Monthly Ride Summary")
@@ -108,9 +106,12 @@ elif page == "📈 Bike Usage vs Weather":
 
     st.markdown("""
 ### 🔍 Deeper Insights:
-- 🧊 **Cold Weather (< 40°F):** Nov–Feb had under **30,000 rides/month** on average.  
-- 🌤️ **Comfort Zone (60–75°F):** April–June and Sept–Oct saw strong demand.  
-- 🔥 **Hot Days (> 85°F):** July/August peaked at over **300,000 rides/month**.
+- 🧊 **Cold Weather (< 40°F):**  
+  Nov–Feb had under **30,000 rides/month** on average.  
+- 🌤️ **Comfort Zone (60–75°F):**  
+  April–June and Sept–Oct saw strong demand.  
+- 🔥 **Hot Days (> 85°F):**  
+  July/August peaked at over **300,000 rides/month**.
 
 ### ✅ Actionable Strategy:
 - Increase fleet size by **25–35%** during **May–October**.  
@@ -131,7 +132,7 @@ elif page == "📊 Top Stations Analysis":
 
     # Extended season filter options
     available_seasons = list(df['season'].unique())
-    extended_seasons = sorted(set(available_seasons + ['Spring', 'Summer', 'Rainy', 'Winter']))
+    extended_seasons = list(set(available_seasons + ['Spring', 'Summer', 'Rainy', 'Winter']))
 
     with st.sidebar:
         season_filter = st.multiselect(
