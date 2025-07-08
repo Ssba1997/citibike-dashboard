@@ -42,9 +42,13 @@ page = st.sidebar.selectbox('🔎 Select a Section:',
 # -------------------- Define base path for files --------------------
 BASE_PATH = r"C:\Users\hp\Documents\New York's CitiBike trips in 2022"
 
-# -------------------- Load Dataset --------------------
+# -------------------- Load Dataset with Debug --------------------
+file_path = os.path.join(BASE_PATH, 'reduced_data_to_plot_7.csv')
+st.write(f"Trying to load file at: {file_path}")
+st.write(f"File exists? {os.path.isfile(file_path)}")
+
 try:
-    df = pd.read_csv(os.path.join(BASE_PATH, 'reduced_data_to_plot_7.csv'), encoding='utf-8')
+    df = pd.read_csv(file_path, encoding='utf-8')
 except FileNotFoundError:
     st.error("⚠️ Data file 'reduced_data_to_plot_7.csv' not found. Please ensure it exists in the folder.")
     st.stop()
