@@ -40,13 +40,13 @@ page = st.sidebar.selectbox('🔎 Select a Section:',
      "✅ Final Recommendations"])
 
 # -------------------- Define base path for files --------------------
-BASE_PATH = r"C:\Users\hp\Documents\New York's CitiBike trips in 2022"
+BASE_PATH = "."
 
 # -------------------- Load Dataset --------------------
 try:
-    df = pd.read_csv(os.path.join(BASE_PATH, 'reduced_data_to_plot.csv'), encoding='utf-8')
+    df = pd.read_csv(os.path.join(BASE_PATH, 'reduced_data_to_plot_7.csv'), encoding='utf-8')
 except FileNotFoundError:
-    st.error("⚠️ Data file 'reduced_data_to_plot.csv' not found. Please ensure it exists in the folder.")
+    st.error("⚠️ Data file 'reduced_data_to_plot_7.csv' not found. Please ensure it exists in the folder.")
     st.stop()
 
 # -------------------- Page 1: Introduction --------------------
