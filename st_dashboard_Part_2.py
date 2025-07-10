@@ -64,7 +64,7 @@ Help Citi Bike address **bike shortages during peak periods** and optimize **sta
     """)
     try:
         image = Image.open(os.path.join(BASE_PATH, "intro_bike.jpg"))
-        st.image(image, caption="📸 Image: Bike NYC", use_column_width=True)
+        st.image(image, caption="📸 Image: Bike NYC")  # Removed use_container_width
     except FileNotFoundError:
         st.info("📷 Intro image not found. Skipping visual.")
 
@@ -211,7 +211,7 @@ else:
 
     try:
         bikes_img = Image.open(os.path.join(BASE_PATH, "recs_page.jpg"))
-        st.image(bikes_img, caption="📸 Strategy Highlights", use_column_width=True)
+        st.image(bikes_img, caption="📸 Strategy Highlights")  # Removed use_container_width
     except FileNotFoundError:
         st.info("📷 Recommendation image not found. Skipping visual.")
 
